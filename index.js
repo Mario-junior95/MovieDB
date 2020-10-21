@@ -93,5 +93,16 @@ app.get("/movies/read/by-title" , (req , res , next) =>{
       })});
 });
 
+app.get("/movies/read/id/:movieId" , (req , res , next) =>{
+    if((req.params.movieId > 0 && req.params.movieId < movies.length)){
+        res.send({status:200, data: movies[req.params.movieId-1]});
+    }else{
+        res.send({status:404, error:true, message:'the movie ' + req.params.movieId + ' does not exist'});
+    }
+});
+
+
+
+
 
 
