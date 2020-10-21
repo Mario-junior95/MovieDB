@@ -65,7 +65,6 @@ app.get("/movies/create" , (req , res , next) =>{
 
 app.get("/movies/read" , (req , res , next) =>{
     res.send({status:200, data:movies});
-    
 });
 
 app.get("/movies/update" , (req , res , next) =>{
@@ -76,6 +75,23 @@ app.get("/movies/delete" , (req , res , next) =>{
     res.send('create delete');
 });
 
+app.get("/movies/read/by-date" , (req , res , next) =>{
+    res.send({status:200, data:movies.sort(function(a,b){
+      return  a.year - b.year;
+    })});
+});
+
+app.get("/movies/read/by-rating" , (req , res , next) =>{
+    res.send({status:200, data:movies.sort(function(a,b){
+        return  a.rating - b.rating;
+      })});
+});
+
+app.get("/movies/read/by-title" , (req , res , next) =>{
+    res.send({status:200, data:movies.sort(function(a,b){
+        return  a.title.localeCompare(b.title);
+      })});
+});
 
 
 
