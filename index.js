@@ -60,7 +60,7 @@ const movies = [
 ]
 
 app.get("/movies/create" , (req , res , next) =>{
-    res.send('create route');
+    res.send("Creat route");
 });
 
 app.get("/movies/read" , (req , res , next) =>{
@@ -94,15 +94,15 @@ app.get("/movies/read/by-title" , (req , res , next) =>{
 });
 
 app.get("/movies/read/id/:movieId" , (req , res , next) =>{
-    if((req.params.movieId > 0 && req.params.movieId < movies.length)){
-        res.send({status:200, data: movies[req.params.movieId-1]});
+    var MOVIES = " ";
+    for(var i = 0 ; i < movies.length ; i++){
+        if(req.params.movieId.length > 0 && req.params.movieId === movies[i].title){
+            MOVIES += "title: " + movies[i].title + " year: " + movies[i].year + " rating: " + movies[i].rating;
+        }
+    }
+    if(MOVIES !== " "){
+        res.send("{status:200, data: " + MOVIES + "}");
     }else{
-        res.send({status:404, error:true, message:'the movie ' + req.params.movieId + ' does not exist'});
+        res.send("{status:404, error :true, message : 'the movie " + req.params.movieId  + " does not exist'}" );
     }
 });
-
-
-
-
-
-
