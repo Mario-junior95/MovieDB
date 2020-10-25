@@ -90,8 +90,23 @@ app.get("/movies/update" , (req , res , next) =>{
     res.send('create update');
 });
 
-app.get("/movies/delete" , (req , res , next) =>{
-    res.send('create delete');
+app.get("/movies/delete/:id" , (req , res , next) =>{
+    var result = "";
+    for(var  i = 0 ; i < movies.length ; i++){
+        if(movies[i].title === req.params.id){
+            movies.splice(i,1);
+            result = movies;
+        }
+    }
+    if(result !== ""){
+        res.send(result);
+    }else{
+        res.send("{status:404, error:true, message:'the movie " + req.params.id + " does not exist'}");
+    }
+    
+
+    
+
 });
 
 app.get("/movies/read/by-date" , (req , res , next) =>{
