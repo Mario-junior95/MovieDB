@@ -1,3 +1,5 @@
+const { text } = require('express')
+const e = require('express')
 const express = require('express')
 const app = express()
 const port = 3000
@@ -60,7 +62,24 @@ const movies = [
 ]
 
 app.get("/movies/create" , (req , res , next) =>{
-    res.send("Creat route");
+   title = req.query.title;
+   year = parseInt(req.query.year);
+   rating = parseFloat(req.query.rating);
+   if(!title  || !year || year.length < 4 || isNaN(year) || year < 1888){
+       //year < 1888 because the first movie is published in 1888
+       var result = "{status:403, error:true, message:'you cannot create a movie without providing a title and a year'}";
+       res.send(result);
+   }else{
+       if(!rating || isNaN(rating)){
+        var result = {title :title, year :year ,rating :4};
+        movies.push(result)
+        res.send(movies);
+       }else{
+        var result = {title :title, year :year ,rating :rating};
+        movies.push(result)
+        res.send(movies);
+       }
+   }
 });
 
 app.get("/movies/read" , (req , res , next) =>{
@@ -95,12 +114,15 @@ app.get("/movies/read/by-title" , (req , res , next) =>{
 
 app.get("/movies/read/id/:movieId" , (req , res , next) =>{
     var MOVIES = " ";
+    // var Arabic = /[\u0600-\u06FF\u0750-\u077F]/;
+    // var English = /^[A-Za-z0-9]*$/;
+     
     for(var i = 0 ; i < movies.length ; i++){
-        if(req.params.movieId.length > 0 && req.params.movieId === movies[i].title){
+        if(req.params.movieId.length > 0 && req.params.movieId === movies[i].title && typeof(req.params.movieId) === "string"){
             MOVIES += "title: " + movies[i].title + " year: " + movies[i].year + " rating: " + movies[i].rating;
         }
     }
-    if(MOVIES !== " "){
+    if(MOVIES !== " " ){
         res.send("{status:200, data: " + MOVIES + "}");
     }else{
         res.send("{status:404, error :true, message : 'the movie " + req.params.movieId  + " does not exist'}" );
