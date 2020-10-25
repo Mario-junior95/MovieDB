@@ -86,8 +86,30 @@ app.get("/movies/read" , (req , res , next) =>{
     res.send({status:200, data:movies});
 });
 
-app.get("/movies/update" , (req , res , next) =>{
-    res.send('create update');
+app.get("/movies/update/:id" , (req , res , next) =>{
+    //Note: You should insert it all in once to see the update or insert 2 of them to see the change example:/Avatar/title="bla"&rating="3"
+    //7atet hel note cz bas zid tene mara 3al page by7ot error la erja3 a3mel run mara tenye w 8ayer li bade 8ayro w ta ma tfakera fe2che :p
+    //In case el note mech wad7a 7kine 
+   var result = "";
+   var title = req.query.title;
+   var year = parseInt(req.query.year);
+   var rating = parseFloat(req.query.rating);
+   for(var i = 0 ; i < movies.length; i++){
+       if(movies[i].title === req.params.id){
+           result = movies[i]['title'] = title;
+           if(!isNaN(year)){
+               result = movies[i]['year'] = year;
+           }else if(!isNaN(rating)){
+               result = movies[i]['rating'] = rating;
+           }
+       }
+   }
+   if(result !== ""){
+    res.send(movies);
+}else{
+    res.send("{status:404, error:true, message:'the movie " + req.params.id + " does not exist'}");
+}
+   
 });
 
 app.get("/movies/delete/:id" , (req , res , next) =>{
@@ -103,10 +125,6 @@ app.get("/movies/delete/:id" , (req , res , next) =>{
     }else{
         res.send("{status:404, error:true, message:'the movie " + req.params.id + " does not exist'}");
     }
-    
-
-    
-
 });
 
 app.get("/movies/read/by-date" , (req , res , next) =>{
