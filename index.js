@@ -25,7 +25,7 @@ app.get("/time" , (req , res , next) =>{
 });
 
 
-app.get("/test/:userId" , (req , res , next) =>{
+app.get("/hello/:userId" , (req , res , next) =>{
     res.send('{status:200, message:"Hello,' +  req.params.userId + '"}');
 });
 
@@ -61,7 +61,7 @@ const movies = [
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
-app.get("/movies/create" , (req , res , next) =>{
+app.post("/movies/create" , (req , res , next) =>{
    title = req.query.title;
    year = parseInt(req.query.year);
    rating = parseFloat(req.query.rating);
@@ -86,7 +86,7 @@ app.get("/movies/read" , (req , res , next) =>{
     res.send({status:200, data:movies});
 });
 
-app.get("/movies/update/:id" , (req , res , next) =>{
+app.put("/movies/update/:id" , (req , res , next) =>{
     //Note: You should insert it all in once to see the update or insert 2 of them to see the change example:/Avatar/title="bla"&rating="3"
     //7atet hel note cz bas zid tene mara 3al page by7ot error la erja3 a3mel run mara tenye w 8ayer li bade 8ayro w ta ma tfakera fe2che :p
     //In case el note mech wad7a 7kine 
@@ -112,7 +112,7 @@ app.get("/movies/update/:id" , (req , res , next) =>{
    
 });
 
-app.get("/movies/delete/:id" , (req , res , next) =>{
+app.delete("/movies/delete/:id" , (req , res , next) =>{
     var result = "";
     for(var  i = 0 ; i < movies.length ; i++){
         if(movies[i].title === req.params.id){
